@@ -1,0 +1,114 @@
+<resources>
+    <string name="app_name">Class Schedule</string>
+    <string name="edit_activity_title">Edit class</string>
+
+    <string name="title_course">Course</string>
+    <string name="title_test">Tests</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="color_picker_dialog_title">Pick a color</string>
+    <string name="color_picker_dialog_ok">OK</string>
+    <string name="color_picker_dialog_cancel">Cancel</string>
+    <string name="class_name_label">Class name:</string>
+    <string name="class_from_label">From:</string>
+    <string name="class_to_label">To:</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="timetable">Timetable</string>
+    <string name="visible_days">Visible days</string>
+    <string name="visible_hours">Visible hours</string>
+    <string name="notify_classes">Notify me everyday</string>
+    <string name="notify_classes_summary">About today\'s classes</string>
+    <string name="notify_tests">Notify me about the tests</string>
+    <string name="widget_title">Today\'s classes</string>
+    <string name="widget_edit_button_description">Edit</string>
+    <string name="no_classes">No classes</string>
+    <string name="opt_data_hint">(Optional) Additional class data.</string>
+    <string name="edit">EDIT</string>
+    <string name="collides_with">Collides with</string>
+
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <string name="mon">mon.</string>
+    <string name="tue">tue.</string>
+    <string name="wed">wed.</string>
+    <string name="thu">thu.</string>
+    <string name="fri">fri.</string>
+    <string name="sat">sat.</string>
+    <string name="sun">sun.</string>
+
+    <string name="mon_initial">M</string>
+    <string name="tue_initial">T</string>
+    <string name="wed_initial">W</string>
+    <string name="thu_initial">T</string>
+    <string name="fri_initial">F</string>
+    <string name="sat_initial">S</string>
+    <string name="sun_initial">S</string>
+
+    <string name="time12am">12 a. m.</string>
+    <string name="time1am">1 a. m.</string>
+    <string name="time2am">2 a. m.</string>
+    <string name="time3am">3 a. m.</string>
+    <string name="time4am">4 a. m.</string>
+    <string name="time5am">5 a. m.</string>
+    <string name="time6am">6 a. m.</string>
+    <string name="time7am">7 a. m.</string>
+    <string name="time8am">8 a. m.</string>
+    <string name="time9am">9 a. m.</string>
+    <string name="time10am">10 a. m.</string>
+    <string name="time11am">11 a. m.</string>
+    <string name="time12pm">12 p. m.</string>
+    <string name="time1pm">1 p. m.</string>
+    <string name="time2pm">2 p. m.</string>
+    <string name="time3pm">3 p. m.</string>
+    <string name="time4pm">4 p. m.</string>
+    <string name="time5pm">5 p. m.</string>
+    <string name="time6pm">6 p. m.</string>
+    <string name="time7pm">7 p. m.</string>
+    <string name="time8pm">8 p. m.</string>
+    <string name="time9pm">9 p. m.</string>
+    <string name="time10pm">10 p. m.</string>
+    <string name="time11pm">11 p. m.</string>
+
+    <string name="put_class_name" translatable="false">putClassName</string>
+    <string name="put_classes_names" translatable="false">putClassesNames</string>
+    <string name="put_class_color" translatable="false">putClassColor</string>
+    <string name="put_classes_colors" translatable="false">putClassesColors</string>
+    <string name="put_class_start_time" translatable="false">putClassStartTime</string>
+    <string name="put_class_end_time" translatable="false">putClassEndTime</string>
+    <string name="put_class_days" translatable="false">putDays</string>
+    <string name="put_class_additional_data" translatable="false">putAdditionalData</string>
+    <string name="put_json" translatable="false">putJSON</string>
+    <string name="new_class" translatable="false">newClassData</string>
+    <string name="delete_class" translatable="false">deleteClassData</string>
+
+    <string name="add_class_name" translatable="false">addClassName</string>
+    <string name="add_class_additional_data" translatable="false">addClassAdditionalData</string>
+    <string name="add_class_start_time" translatable="false">addClassStartTime</string>
+    <string name="add_class_end_time" translatable="false">addClassEndTime</string>
+    <string name="add_class_color" translatable="false">addClassColor</string>
+    <string name="add_class_days" translatable="false">addClassDays</string>
+
+    <string name="delete_class_name" translatable="false">deleteClassName</string>
+    <string name="delete_class_additional_data" translatable="false">deleteClassAdditionalData</string>
+    <string name="delete_class_start_time" translatable="false">deleteClassStartEnd</string>
+    <string name="delete_class_end_time" translatable="false">deleteClassEndEnd</string>
+    <string name="delete_class_color" translatable="false">deleteClassColor</string>
+    <string name="delete_class_days" translatable="false">deleteClassDays</string>
+
+    <string name="key_sunday" translatable="false">sundayKey</string>
+    <string name="key_monday" translatable="false">mondayKey</string>
+    <string name="key_tuesday" translatable="false">tuesdayKey</string>
+    <string name="key_wednesday" translatable="false">wednesdayKey</string>
+    <string name="key_thursday" translatable="false">thursdayKey</string>
+    <string name="key_friday" translatable="false">fridayKey</string>
+    <string name="key_saturday" translatable="false">saturdayKey</string>
+    <string name="key_notify_classes" translatable="false">notifyClassesKey</string>
+    <string name="key_notify_tests" translatable="false">notifyTestsKey</string>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center|center">
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/class_from_label"
+            android:textSize="20sp"
+            android:layout_gravity="center|center" />
+
+        <NumberPicker
+            android:id="@+id/hour_start_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/class_to_label"
+            android:layout_gravity="center|center"
+            android:textSize="20sp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp" />
+
+        <NumberPicker
+            android:id="@+id/hour_end_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </TableRow>
+
+</TableLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingEnd="15dp"
+    android:paddingRight="15dp"
+    android:paddingStart="15dp"
+    android:paddingLeft="15dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:layout_gravity="start">
+
+    <TextView
+        android:id="@+id/class_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="2dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/class_additional_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/class_name_textview"
+        android:layout_toEndOf="@id/class_name_textview"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/additional_data" />
+
+    <TextView
+        android:id="@+id/widget_from_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/class_name_textview"
+        android:textSize="12sp"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/class_from_label" />
+
+    <TextView
+        android:id="@+id/class_from_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/widget_from_textview"
+        android:layout_toEndOf="@id/widget_from_textview"
+        android:layout_below="@id/class_name_textview"
+        android:textSize="12sp"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/widget_to_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/class_to_label"
+        android:layout_toRightOf="@id/class_from_textview"
+        android:layout_toEndOf="@id/class_from_textview"
+        android:layout_below="@id/class_name_textview"
+        android:textSize="12sp"
+        android:layout_marginRight="4dp"
+        android:layout_marginEnd="4dp" />
+
+    <TextView
+        android:id="@+id/class_to_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/widget_to_textview"
+        android:layout_toEndOf="@id/widget_to_textview"
+        android:layout_below="@id/class_name_textview"
+        android:textSize="12sp" />
+
+</RelativeLayout>

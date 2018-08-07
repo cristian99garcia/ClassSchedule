@@ -1,0 +1,78 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/timetable">
+
+        <PreferenceScreen
+            android:key="visible_days_key"
+            android:title="@string/visible_days">
+
+            <PreferenceCategory
+                android:title="@string/visible_days">
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_sunday"
+                    android:title="@string/sunday"
+                    android:defaultValue="false" />
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_monday"
+                    android:title="@string/monday"
+                    android:defaultValue="true" />
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_tuesday"
+                    android:title="@string/tuesday"
+                    android:defaultValue="true" />
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_wednesday"
+                    android:title="@string/wednesday"
+                    android:defaultValue="true" />
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_thursday"
+                    android:title="@string/thursday"
+                    android:defaultValue="true" />
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_friday"
+                    android:title="@string/friday"
+                    android:defaultValue="true" />
+
+                <SwitchPreferenceCompat
+                    android:key="@string/key_saturday"
+                    android:title="@string/saturday"
+                    android:defaultValue="false" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <com.cristiangarcia.classschedule.HourPreference
+            android:key="visible_hours_preference"
+            android:title="@string/visible_hours"
+            android:summary=""
+            android:defaultValue="6:22" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/title_notifications">
+
+        <!--
+        <CheckBoxPreference
+            android:key="@string/key_notify_classes"
+            android:title="@string/notify_classes"
+            android:summary="@string/notify_classes_summary" />
+        -->
+
+        <CheckBoxPreference
+            android:key="@string/key_notify_tests"
+            android:title="@string/notify_tests"
+            android:summary="" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
