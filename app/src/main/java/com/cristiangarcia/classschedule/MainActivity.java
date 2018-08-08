@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Manually displaying the timetable fragment
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         String json;
-        if (intent.hasExtra(getResources().getString(R.string.put_json)))
+        if (intent.hasExtra(getResources().getString(R.string.put_json)) && bundle != null)
             json = bundle.getString(getResources().getString(R.string.put_json));
         else
             json = Pojo.loadSavedJSON(this);
@@ -104,22 +104,32 @@ public class MainActivity extends AppCompatActivity {
         //   Load previous data
         //   Add class new data
 
-        if (intent.hasExtra(getResources().getString(R.string.delete_class)) && bundle.getBoolean(getResources().getString(R.string.delete_class))) {
+        if (intent.hasExtra(getResources().getString(R.string.delete_class)) && bundle != null && bundle.getBoolean(getResources().getString(R.string.delete_class))) {
             ClassData data = new ClassData();
+            String[] arr = bundle.getStringArray(getResources().getString(R.string.delete_class_days));
+            String s = (arr != null)? arr[0]: "";
+
             data.setName(bundle.getString(getResources().getString(R.string.delete_class_name)))
                     .setAdditionalData(bundle.getString(getResources().getString(R.string.delete_class_additional_data)))
                     .setStartTime(bundle.getString(getResources().getString(R.string.delete_class_start_time)))
                     .setEndTime(bundle.getString(getResources().getString(R.string.delete_class_end_time)))
                     .setColor(bundle.getInt(getResources().getString(R.string.delete_class_color)))
-                    .setDay(bundle.getStringArray(getResources().getString(R.string.delete_class_days))[0]);
+                    .setDay(s);
 
             fg.deleteClassData(data);
         }
 
         fg.loadData(json);
 
-        if (intent.hasExtra(getResources().getString(R.string.new_class)) && bundle.getBoolean(getResources().getString(R.string.new_class))) {
+        if (intent.hasExtra(getResources().getString(R.string.new_class)) && bundle != null && bundle.getBoolean(getResources().getString(R.string.new_class))) {
             String[] days = bundle.getStringArray(getResources().getString(R.string.add_class_days));
+
+            if (days == null) {
+                TimetableWidget.scheduleNextUpdate(this);
+                saveData();
+                return;
+            }
+
             for (String day: days) {
                 ClassData data = new ClassData();
                 data.setName(bundle.getString(getResources().getString(R.string.add_class_name)))

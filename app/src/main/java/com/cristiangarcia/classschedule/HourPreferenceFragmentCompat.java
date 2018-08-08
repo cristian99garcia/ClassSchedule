@@ -24,8 +24,8 @@ public class HourPreferenceFragmentCompat extends PreferenceDialogFragmentCompat
     public void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        startPicker = (android.widget.NumberPicker) view.findViewById(R.id.hour_start_picker);
-        endPicker = (android.widget.NumberPicker) view.findViewById(R.id.hour_end_picker);
+        startPicker = view.findViewById(R.id.hour_start_picker);
+        endPicker = view.findViewById(R.id.hour_end_picker);
 
         int start = 1;
         int end = 1;

@@ -35,10 +35,13 @@ public class HeaderRow extends TableRow {
 
         try {
             String text = array.getString(R.styleable.HeaderRow_visibleDays);
-            String[] _days = text.split(" ");
 
-            for (int i = 0; i < _days.length; i++) {
-                visibleDays[i] = Pojo.getDayId(_days[i]);  // context.getString(id)
+            if (text != null) {
+                String[] _days = text.split(" ");
+
+                for (int i = 0; i < _days.length; i++) {
+                    visibleDays[i] = Pojo.getDayId(_days[i]);  // context.getString(id)
+                }
             }
         } finally {
             if (visibleDays.length == 0) {

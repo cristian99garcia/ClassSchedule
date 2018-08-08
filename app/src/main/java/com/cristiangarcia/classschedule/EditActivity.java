@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
@@ -56,11 +58,9 @@ public class EditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit);
 
         setTitle(R.string.edit_activity_title);
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);  // Ensure "go back" button is visible
-        } catch (java.lang.NullPointerException e) {
-            Pojo.addLog(getApplicationContext(), e.getMessage());
-        }
+        ActionBar bar = getSupportActionBar();
+        if (bar != null)
+            bar.setDisplayHomeAsUpEnabled(true);  // Ensure "go back" button is visible
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -77,40 +77,40 @@ public class EditActivity extends AppCompatActivity {
         tgSun = findViewById(R.id.toggleSun);
         classesRecycler = findViewById(R.id.classes_recyclerview);
 
-        if (intent.hasExtra(getResources().getString(R.string.put_json)))
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_json)))
             previousData = extras.getString(getResources().getString(R.string.put_json));
         else
             previousData = "[]";
 
-        if (intent.hasExtra(getResources().getString(R.string.put_class_name))) {
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_class_name))) {
             setClassName(extras.getString(getResources().getString(R.string.put_class_name)));
             firstClassData.setName(this.getClassName());
         }// else
          //   firstClassData = null;  // I don't really know, I guess
 
-        if (intent.hasExtra(getResources().getString(R.string.put_class_additional_data))) {
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_class_additional_data))) {
             setAdditionalData(extras.getString(getResources().getString(R.string.put_class_additional_data)));
             firstClassData.setAdditionalData(this.getAdditionalData());
         }
 
-        if (intent.hasExtra(getResources().getString(R.string.put_class_start_time))) {
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_class_start_time))) {
             setStartTime(extras.getString(getResources().getString(R.string.put_class_start_time)));
             firstClassData.setStartTime(this.getClassStartTime());
         } else
             setStartTime("7:30");
 
-        if (intent.hasExtra(getResources().getString(R.string.put_class_end_time))) {
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_class_end_time))) {
             setEndTime(extras.getString(getResources().getString(R.string.put_class_end_time)));
             firstClassData.setEndTime(this.getClassEndTime());
         } else
             setEndTime("9:00");
 
-        if (intent.hasExtra(getResources().getString(R.string.put_class_color))) {
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_class_color))) {
             setClassColor(extras.getInt(getResources().getString(R.string.put_class_color)));
             firstClassData.setColor(getClassColor());
         }
 
-        if (intent.hasExtra(getResources().getString(R.string.put_class_days))) {
+        if (extras != null && intent.hasExtra(getResources().getString(R.string.put_class_days))) {
             setSelectedDays(new String[]{extras.getString(getResources().getString(R.string.put_class_days))});
             firstClassData.setDay(getSelectedDays()[0]);
         }
@@ -257,7 +257,10 @@ public class EditActivity extends AppCompatActivity {
         if (size.y < dSize) dSize = size.y;
 
         dSize -= dSize / 20;  // Just a little margin
-        colorDialog.getWindow().setLayout(dSize, dSize);
+
+        Window win = colorDialog.getWindow();
+        if (win != null)
+            win.setLayout(dSize, dSize);
     }
 
     private String getClassName() {
