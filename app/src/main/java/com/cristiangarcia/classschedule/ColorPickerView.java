@@ -23,10 +23,10 @@ public class ColorPickerView extends View {
     private int circleX;
     private int circleY;
     private int circleR;
-    private int margin = 50;
+    int margin = 50;
 
     private boolean searchColor = true;
-    private boolean ignoreMoves = false;
+    boolean ignoreMoves = false;
 
     private int[] colors = {
             0xFFFF0000,  // Red
@@ -38,14 +38,14 @@ public class ColorPickerView extends View {
             0xFFFF0000,  // Red
     };
 
-    Paint paint1 = new Paint();
-    Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Path circle = new Path();
+    private Paint paint1 = new Paint();
+    private Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Path circle = new Path();
 
-    SweepGradient gradient;
-    RadialGradient rGradient;
+    private SweepGradient gradient;
+    private RadialGradient rGradient;
 
-    private Bitmap bitmap;
+    Bitmap bitmap;
 
     public ColorPickerView(Context context) {
         super(context);
@@ -78,7 +78,7 @@ public class ColorPickerView extends View {
 
             gradient = new SweepGradient(circleX, circleY, colors, positions);
             rGradient = new RadialGradient(circleX, circleY, circleR * 3 / 4, 0xFFFFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP);
-        };
+        }
 
         paint2.setShader(gradient);
         canvas.drawPath(circle, paint2);
@@ -108,6 +108,12 @@ public class ColorPickerView extends View {
     }
 
     @Override
+    public boolean performClick() {
+        // I really don't know what to do here
+        return super.performClick();
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         int action = event.getAction();
         if (action != MotionEvent.ACTION_DOWN && action != MotionEvent.ACTION_MOVE) {
@@ -115,6 +121,7 @@ public class ColorPickerView extends View {
                 ignoreMoves = false;  // reset
             }
 
+            performClick();
             return true;
         }
 

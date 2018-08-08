@@ -101,8 +101,7 @@ public class Pojo {
             Date d1 = sdf.parse(time1);
             Date d2 = sdf.parse(time2);
 
-            long elapsed = d2.getTime() - d1.getTime();
-            return elapsed;
+            return d2.getTime() - d1.getTime();
         } catch (java.text.ParseException e) {
             return 0;
         }
@@ -126,7 +125,14 @@ public class Pojo {
             hour += 1;
         }
 
-        return hour + String.format(":%02d", minute);
+        // This throws a warning...
+        // return hour + ":" + String.format(":%02d", minute);
+
+        String m = minute + "";
+        if (m.length() == 1)
+            m = "0" + m;
+
+        return hour + ":" + m;
     }
 
     public static String getMiddleTime(String time1, String time2) {

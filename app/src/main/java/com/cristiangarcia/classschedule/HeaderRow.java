@@ -13,7 +13,7 @@ import java.util.Calendar;
 
 public class HeaderRow extends TableRow {
 
-    private int[] defaultVisibleDays = {
+    int[] defaultVisibleDays = {
             Calendar.MONDAY,
             Calendar.TUESDAY,
             Calendar.WEDNESDAY,

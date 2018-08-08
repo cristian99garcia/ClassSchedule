@@ -13,7 +13,7 @@ public class TimePreference extends DialogPreference {
     private int lastHour = 0;
     private int lastMinute = 0;
     private TimePicker picker = null;
-    private View v;
+    View v;
 
     public static int getHour(String time) {
         String[] pieces = time.split(":");

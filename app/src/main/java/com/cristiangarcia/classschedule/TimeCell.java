@@ -172,12 +172,13 @@ public class TimeCell extends View {
     }
 
     public boolean isContained(ClassData data) {
-        long elapsed = Pojo.getElapsedTime(data.getEndTime(), this.getStartTime());
-        if (elapsed >= 0)  // The class ends before this cell
+        if (data == null)
             return false;
 
-        elapsed = Pojo.getElapsedTime(this.getEndTime(), data.getStartTime());
-        return elapsed < 0;  // The class starts before this cell's end
+        if (Pojo.getElapsedTime(data.getEndTime(), this.getStartTime()) >= 0)  // The class ends before this cell
+            return false;
+
+        return Pojo.getElapsedTime(this.getEndTime(), data.getStartTime()) < 0;  // The class starts before this cell's end
     }
 
     public void removeClassAt(int index) {

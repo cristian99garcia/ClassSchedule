@@ -44,7 +44,7 @@ public class HourPreference extends DialogPreference {
         persistString(this.hourStart + ":" + hour);
     }
 
-    public void setHours(String data) {
+    private void setHours(String data) {
         this.hourStart = Integer.parseInt(data.split(":")[0]);
         this.hourEnd = Integer.parseInt(data.split(":")[1]);
         persistString(data);

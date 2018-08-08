@@ -13,7 +13,7 @@ public class ColorPickerButton extends View {
 
     // I got this color list from https://www.materialui.co/colors
     // (Material Design header colors)
-    int[] colors = new int[] {
+    private int[] colors = new int[] {
             0xFFF44336,
             0xFFF44336,
             0xFFE91E63,
@@ -39,8 +39,8 @@ public class ColorPickerButton extends View {
     private Random colorGenerator;
     private int selectedColor = 0;
 
-    Rect rect;
-    Paint paint = new Paint();
+    private Rect rect;
+    private Paint paint = new Paint();
 
     public ColorPickerButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,7 +52,7 @@ public class ColorPickerButton extends View {
         rect = new Rect();
     }
 
-    public int getRandomColor() {
+    private int getRandomColor() {
         // Really Java? I need to do all these things to get a random integer?
         // random formula: generator.nextInt((max - min) + 1) + min
         int num = colorGenerator.nextInt(colors.length);  // Random number between 0 and classes.length - 1

@@ -25,9 +25,9 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    int currentFragmentId = -1;
-    String savedData = "";
-    TimetableFragment fg;
+    private int currentFragmentId = -1;
+    private String savedData = "";
+    private TimetableFragment fg;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         updateWidgets();
     }
 
-    public void updateWidgets() {
+    private void updateWidgets() {
         AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
         final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(this, TimetableWidget.class));
         for (int id : appWidgetIds)

@@ -223,7 +223,7 @@ public class EditActivity extends AppCompatActivity {
         return true;
     }
 
-    public void showColorDialog() {
+    private void showColorDialog() {
         if (colorDialog == null) {
             colorView = new ColorPickerView(getBaseContext());
 
@@ -260,7 +260,7 @@ public class EditActivity extends AppCompatActivity {
         colorDialog.getWindow().setLayout(dSize, dSize);
     }
 
-    public String getClassName() {
+    private String getClassName() {
         return tvName.getText().toString();
     }
 
@@ -268,31 +268,31 @@ public class EditActivity extends AppCompatActivity {
         tvName.setText(name);
     }
 
-    public String getAdditionalData() {
+    private String getAdditionalData() {
         return tvAdditional.getText().toString();
     }
 
-    public void setAdditionalData(String data) {
+    private void setAdditionalData(String data) {
         tvAdditional.setText(data);
     }
 
-    public String getClassStartTime() {
+    private String getClassStartTime() {
         return ((TimePicker)findViewById(R.id.start_time_input)).getTime();
     }
 
-    public void setClassStartTime(String time) {
+    private void setClassStartTime(String time) {
         ((TimePicker)findViewById(R.id.start_time_input)).setTime(time);
     }
 
-    public String getClassEndTime() {
+    private String getClassEndTime() {
         return ((TimePicker)findViewById(R.id.end_time_input)).getTime();
     }
 
-    public void setClassEndTime(String time) {
+    private void setClassEndTime(String time) {
         ((TimePicker)findViewById(R.id.end_time_input)).setTime(time);
     }
 
-    public int getClassColor() {
+    private int getClassColor() {
         return colorButton.getSelectedColor();
     }
 
@@ -300,23 +300,23 @@ public class EditActivity extends AppCompatActivity {
         colorButton.setSelectedColor(color);
     }
 
-    public String getStartTime() {
+    private String getStartTime() {
         return ((TimePicker)findViewById(R.id.start_time_input)).getTime();
     }
 
-    public void setStartTime(String time) {
+    private void setStartTime(String time) {
         ((TimePicker)findViewById(R.id.start_time_input)).setTime(time, true);
     }
 
-    public String getEndTime() {
+    private String getEndTime() {
         return ((TimePicker)findViewById(R.id.end_time_input)).getTime();
     }
 
-    public void setEndTime(String time) {
+    private void setEndTime(String time) {
         ((TimePicker)findViewById(R.id.end_time_input)).setTime(time, true);
     }
 
-    public String[] getSelectedDays() {
+    private String[] getSelectedDays() {
         String days = "";
 
         if (tgSun.isChecked()) { days += "sun#"; }
@@ -337,7 +337,7 @@ public class EditActivity extends AppCompatActivity {
             return result;
     }
 
-    public void setSelectedDays(String[] days) {
+    private void setSelectedDays(String[] days) {
         tgSun.setChecked(Pojo.contains(days, "sun"));
         tgMon.setChecked(Pojo.contains(days, "mon"));
         tgTue.setChecked(Pojo.contains(days, "tue"));
@@ -426,7 +426,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
-    public void setSaveItemEnabled(boolean enabled) {
+    private void setSaveItemEnabled(boolean enabled) {
         if (optionsMenu == null) return;
 
         MenuItem item;
@@ -445,7 +445,7 @@ public class EditActivity extends AppCompatActivity {
         }
     }
 
-    public void updateSavable() {
+    private void updateSavable() {
         setSaveItemEnabled(!getClassName().equals("") &&
                            Pojo.getElapsedTime(getStartTime(), getEndTime()) > 0 &&
                            getSelectedDays().length > 0);

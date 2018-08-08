@@ -22,6 +22,10 @@ public class TimeRow extends TableRow {
 
     private HeaderRow header;
 
+    public TimeRow(Context context) {
+        super(context);
+    }
+
     public TimeRow(Context context, HeaderRow header, int starts, int ends, int size) {
         super(context);
 

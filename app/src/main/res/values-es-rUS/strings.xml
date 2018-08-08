@@ -59,7 +59,7 @@
     <string name="delete">Borrar</string>
     <string name="timetable">Horarios</string>
     <string name="title_settings">Configuración</string>
-    <string name="visible_days">Dias a mostrar</string>
+    <string name="visible_days">Días a mostrar</string>
     <string name="title_notifications">Notifications</string>
     <string name="notify_classes">Notíficame diariamente</string>
     <string name="notify_tests">Notíficame sobre las pruebas</string>

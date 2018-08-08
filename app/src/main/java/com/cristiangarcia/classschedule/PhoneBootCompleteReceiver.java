@@ -6,7 +6,7 @@ import android.content.Intent;
 
 public class PhoneBootCompleteReceiver extends BroadcastReceiver {
 
-    public static boolean phoneBootSucessful = false;
+    private static boolean phoneBootSucessful = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {

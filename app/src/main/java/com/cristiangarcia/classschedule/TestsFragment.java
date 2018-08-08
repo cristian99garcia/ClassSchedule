@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 public class TestsFragment extends Fragment {
 
     public static TestsFragment newInstance() {
-        TestsFragment fragment = new TestsFragment();
-        return fragment;
+        return new TestsFragment();
     }
 
     @Override
