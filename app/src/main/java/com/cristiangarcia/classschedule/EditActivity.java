@@ -57,6 +57,7 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        Log.d("onCreate", "EditClass");
         setTitle(R.string.edit_activity_title);
         ActionBar bar = getSupportActionBar();
         if (bar != null)

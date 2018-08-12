@@ -90,7 +90,7 @@ public class TimetableFragment extends Fragment {
         // Hide the minute line in case the app was opened in the previous hour
         if (hour - 1 >= firstHour && hour - 1 <= lastHour) {
             cell = timeRows[hour - firstHour - 1].getTimeCell(day);
-            if (cell.getShowMinuteLine())
+            if (cell != null && cell.getShowMinuteLine())
                 // Evit calling hideMinuteLine when it isn't necessary, because that method
                 // call to redraw all the TimeCell
                 cell.hideMinuteLine();

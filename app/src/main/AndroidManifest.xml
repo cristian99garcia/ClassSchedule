@@ -42,6 +42,7 @@
             android:label="@string/widget_title">
 
             <intent-filter>
+                <action android:name="com.cristiangarcia.classschedule.WIDGET_CLICK" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />

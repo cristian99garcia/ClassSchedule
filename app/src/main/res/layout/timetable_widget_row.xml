@@ -13,15 +13,18 @@
 
     <TextView
         android:id="@+id/class_name_textview"
+        android:text="CLASS NAME"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="2dp"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textColor="@color/widget_primary_text_color" />
 
     <TextView
         android:id="@+id/class_additional_textview"
+        android:text="(ADITIONAL)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/class_name_textview"
@@ -29,7 +32,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:textSize="20sp"
-        android:textColor="@color/additional_data" />
+        android:textColor="@color/widget_secondary_text_color" />
 
     <TextView
         android:id="@+id/widget_from_textview"
@@ -39,10 +42,12 @@
         android:textSize="12sp"
         android:layout_marginRight="4dp"
         android:layout_marginEnd="4dp"
-        android:text="@string/class_from_label" />
+        android:text="@string/class_from_label"
+        android:textColor="@color/widget_secondary_text_color" />
 
     <TextView
         android:id="@+id/class_from_textview"
+        android:text="HOUR1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/widget_from_textview"
@@ -50,7 +55,8 @@
         android:layout_below="@id/class_name_textview"
         android:textSize="12sp"
         android:layout_marginRight="8dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/widget_secondary_text_color" />
 
     <TextView
         android:id="@+id/widget_to_textview"
@@ -62,15 +68,18 @@
         android:layout_below="@id/class_name_textview"
         android:textSize="12sp"
         android:layout_marginRight="4dp"
-        android:layout_marginEnd="4dp" />
+        android:layout_marginEnd="4dp"
+        android:textColor="@color/widget_secondary_text_color" />
 
     <TextView
         android:id="@+id/class_to_textview"
+        android:text="HOUR2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/widget_to_textview"
         android:layout_toEndOf="@id/widget_to_textview"
         android:layout_below="@id/class_name_textview"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="@color/widget_secondary_text_color" />
 
 </RelativeLayout>

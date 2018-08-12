@@ -23,25 +23,25 @@ public class TimetableWidget extends AppWidgetProvider {
     private static final String ACTION_APPWIDGET_DELETED = "android.appwidget.action.APPWIDGET_DELETED";
     private static final String ACTION_APPWIDGET_ENABLED = "android.appwidget.action.APPWIDGET_ENABLED";
     private static final String ACTION_APPWIDGET_OPTIONS = "android.appwidget.action.APPWIDGET_UPDATE_OPTIONS";
-
-    //private static final String ACTION_CLICK = "android.appwidget.action.ACTION_CLICK";
-    //private static final String ACTION_ITEM_CLICK = "android.appwidget.action.ACTION_ITEM_CLICK";
+    private static final String ACTION_CLICK_EDIT = "com.cristiangarcia.classschedule.WIDGET_CLICK";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
         super.onUpdate(context, manager, appWidgetIds);
 
-        Log.d("TimetableWidget", "onUpdate");
-
-        for (int appWidgetId : appWidgetIds) {
+        for (int appWidgetId: appWidgetIds) {
             Intent remoteViewsFactoryIntent = new Intent(context, TimetableWidgetService.class);
             remoteViewsFactoryIntent.putExtra("update", true);
 
             RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.timetable_widget);
             rv.setEmptyView(R.id.empty_view, R.id.widget_listview);
             rv.setRemoteAdapter(R.id.widget_listview, remoteViewsFactoryIntent);
-            //setOnItemSelectedPendingIntent(context, rv);
-            //setOnButtonClickPendingIntent(context, rv, appWidgetId);
+            rv.setImageViewResource(R.id.widget_edit_button, R.drawable.ic_edit_24dp);
+
+            Intent intent = new Intent(context, TimetableWidget.class);
+            intent.setAction(ACTION_CLICK_EDIT);
+            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            rv.setOnClickPendingIntent(R.id.widget_edit_button, pIntent);
 
             manager.updateAppWidget(appWidgetId, rv);
             manager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_listview);
@@ -57,10 +57,19 @@ public class TimetableWidget extends AppWidgetProvider {
         AppWidgetManager manager;
         String action = intent.getAction();
 
+        Log.d("onReceive", action);
+
         if (action == null)
             return;
 
         switch (action) {
+            case ACTION_CLICK_EDIT:
+                Intent _intent = new Intent(context, MainActivity.class);
+                _intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.getApplicationContext().startActivity(_intent);
+
+                break;
+
             case ACTION_APPWIDGET_UPDATE:
             case ACTION_TIME_SET:
             case ACTION_SCHEDULED_UPDATE:
@@ -69,8 +78,10 @@ public class TimetableWidget extends AppWidgetProvider {
 
             manager = AppWidgetManager.getInstance(context);
             final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, TimetableWidget.class));
+
             for (int id: appWidgetIds)
-                manager.notifyAppWidgetViewDataChanged(id, R.id.widget_listview);
+                if (id != 0)
+                    manager.notifyAppWidgetViewDataChanged(id, R.id.widget_listview);
 
             break;
 
@@ -83,37 +94,6 @@ public class TimetableWidget extends AppWidgetProvider {
                 break;
         }
     }
-
-    /*
-    private void setOnItemSelectedPendingIntent(Context ctx, RemoteViews rv) {
-        Intent itemClickIntent = new Intent(ctx, TimetableWidget.class);
-        itemClickIntent.setAction(ACTION_ITEM_CLICK);
-
-        PendingIntent itemClickPendingIntent = PendingIntent.getBroadcast(
-                ctx,
-                0,
-                itemClickIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        rv.setPendingIntentTemplate(R.id.widget_listview, itemClickPendingIntent);
-    }*/
-
-    /*
-    private void setOnButtonClickPendingIntent(Context ctx, RemoteViews rv, int appWidgetId) {
-        Intent btnClickIntent = new Intent(ACTION_CLICK);
-        btnClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-
-        PendingIntent btnClickPendingIntent = PendingIntent.getBroadcast(
-                ctx,
-                0,
-                btnClickIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        );
-
-        rv.setOnClickPendingIntent(R.id.btn, btnClickPendingIntent);
-    }
-    */
 
     public static void scheduleNextUpdate(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

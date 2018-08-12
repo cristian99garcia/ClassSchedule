@@ -1,8 +1,7 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/widget_titlebar"
@@ -10,15 +9,38 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@color/widget_titlebar"
-        android:padding="12dp">
+        android:padding="@dimen/widget_margin">
 
         <TextView
             android:id="@+id/widget_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:text="@string/widget_title"
-            android:textColor="#fff"/>
+            android:textColor="@color/widget_title" />
+
+        <ImageButton
+            android:id="@+id/widget_edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/widget_edit_button_description"
+            android:background="#00ffffff" />
+
+        <!--
+        <ImageView
+            android:id="@+id/widget_edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher" />
+            -->
 
     </RelativeLayout>
 
@@ -37,6 +59,7 @@
         android:layout_margin="4dp"
         android:textSize="22sp"
         android:text="@string/no_classes"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/widget_secondary_text_color"/>
 
 </RelativeLayout>

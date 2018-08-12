@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_edit_24dp"
+        app:srcCompat="@drawable/ic_add_24dp"
         android:layout_margin="16dp" />
 
 </android.support.constraint.ConstraintLayout>

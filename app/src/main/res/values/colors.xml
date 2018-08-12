@@ -5,6 +5,10 @@
     <color name="colorAccent">#FF5722</color>
     <color name="table_headers_text">#424242</color>
     <color name="time_label">#b0b0b0</color>
-    <color name="widget_titlebar">#09C</color>
     <color name="additional_data">#aaa</color>
+
+    <color name="widget_title">#fff</color>
+    <color name="widget_titlebar">#09C</color>
+    <color name="widget_primary_text_color">#212121</color>
+    <color name="widget_secondary_text_color">#757575</color>
 </resources>
