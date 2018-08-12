@@ -75,15 +75,14 @@ public class TimetableWidget extends AppWidgetProvider {
             case ACTION_SCHEDULED_UPDATE:
             case ACTION_APPWIDGET_ENABLED:
             case ACTION_APPWIDGET_OPTIONS:
+                manager = AppWidgetManager.getInstance(context);
+                final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, TimetableWidget.class));
 
-            manager = AppWidgetManager.getInstance(context);
-            final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(context, TimetableWidget.class));
+                for (int id: appWidgetIds)
+                    if (id != 0)
+                        manager.notifyAppWidgetViewDataChanged(id, R.id.widget_listview);
 
-            for (int id: appWidgetIds)
-                if (id != 0)
-                    manager.notifyAppWidgetViewDataChanged(id, R.id.widget_listview);
-
-            break;
+                break;
 
             case ACTION_APPWIDGET_DELETED:
                 Log.d("TimetableWidget", "Widget deleted");

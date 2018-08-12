@@ -33,7 +33,8 @@
             android:layout_marginRight="4dp"
             android:singleLine="true"
             android:minLines="2"
-            android:maxLines="2" />
+            android:maxLines="2"
+            android:inputType="textCapWords|textAutoCorrect" />
 
         <com.cristiangarcia.classschedule.ColorPickerButton
             android:id="@+id/color_picker_button"
@@ -61,7 +62,8 @@
             android:singleLine="true"
             android:minLines="2"
             android:maxLines="2"
-            android:hint="@string/opt_data_hint" />
+            android:hint="@string/opt_data_hint"
+            android:inputType="textCapWords|textAutoCorrect" />
 
     </LinearLayout>
 
