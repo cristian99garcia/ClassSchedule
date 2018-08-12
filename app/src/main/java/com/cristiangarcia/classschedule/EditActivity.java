@@ -147,8 +147,8 @@ public class EditActivity extends AppCompatActivity {
             });
         }
 
-        TimePicker[] timePickers = new TimePicker[]{findViewById(R.id.start_time_input), findViewById(R.id.start_time_input)};
-        for (TimePicker picker : timePickers) {
+        TimePicker[] timePickers = new TimePicker[]{findViewById(R.id.start_time_input), findViewById(R.id.end_time_input)};
+        for (TimePicker picker: timePickers) {
             picker.setOnTimeChangedListener(new TimePicker.TimeChangedListener() {
                 @Override
                 public void onTimeChanged(String time) {
@@ -451,7 +451,7 @@ public class EditActivity extends AppCompatActivity {
 
     private void updateSavable() {
         setSaveItemEnabled(!getClassName().equals("") &&
-                           Pojo.getElapsedTime(getStartTime(), getEndTime()) > 0 &&
-                           getSelectedDays().length > 0);
+                Pojo.getElapsedTime(getStartTime(), getEndTime()) > 0 &&
+                getSelectedDays().length > 0);
     }
 }
