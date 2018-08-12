@@ -44,22 +44,28 @@
 
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/widget_listview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/widget_titlebar"
-        android:background="#fff" />
+        android:layout_below="@id/widget_titlebar">
 
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="4dp"
-        android:textSize="22sp"
-        android:text="@string/no_classes"
-        android:gravity="center"
-        android:textColor="@color/widget_secondary_text_color"/>
+        <ListView
+            android:id="@+id/widget_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:textSize="22sp"
+            android:text="@string/no_classes"
+            android:gravity="center"
+            android:textColor="@color/widget_secondary_text_color"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>
