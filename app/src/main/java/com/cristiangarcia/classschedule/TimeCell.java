@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 
 public class TimeCell extends View {
@@ -14,6 +15,7 @@ public class TimeCell extends View {
     private Rect fgRect;
     private Rect rect = new Rect(0, 0, 0, 0);
     private Rect bounds = new Rect(0, 0, 0, 0);
+    float fontSize;
 
     private ClassData[] classes = null;
 
@@ -30,12 +32,16 @@ public class TimeCell extends View {
     public TimeCell(Context context, int starts, int ends) {
         super(context);
 
+        this.fontSize = getResources().getDimension(R.dimen.timetable_font_size);
+
         this.starts = starts;
         this.ends = ends;
     }
 
     public TimeCell(Context context) {
         super(context);
+
+        this.fontSize = getResources().getDimension(R.dimen.timetable_font_size);
     }
 
     @Override
@@ -107,29 +113,47 @@ public class TimeCell extends View {
 
         String middle;
         long elapsed;
-        int y;
+        int y, x;
+
+        int margin = 10;
+
+        int[] rgba;
+        double luminance;
 
         for (ClassData data: this.classes) {
             if (data == null)
                 continue;
 
             middle = Pojo.getMiddleTime(data.getStartTime(), data.getEndTime());
+            paint.getTextBounds(data.getName(), 0, data.getName().length(), bounds);
 
-            paint.setTextSize(getResources().getDimension(R.dimen.timetable_font_size));
-            paint.setColor(Color.WHITE);
+            while (true) {
+                paint.setTextSize(fontSize);
+                paint.getTextBounds(data.getName(), 0, data.getName().length(), bounds);
+
+                if (size[0] - 2 * margin >= bounds.width()) {
+                    x = (size[0] - bounds.width()) / 2 - margin;
+                    break;
+                } else
+                    fontSize -= 1;
+            }
+
+            paint.setTextSize(fontSize);
+
+            // Counting the perceptive luminance - human eye favors green color...
+            rgba = Pojo.colorToRGBA(data.getColor());
+            luminance = (0.299 * rgba[0] + 0.587 * rgba[1] + 0.114 * rgba[2]) / 255;
+
+            if (luminance > 0.58)
+                paint.setColor(Color.BLACK);
+            else
+                paint.setColor(Color.WHITE);
 
             elapsed = Pojo.getElapsedTime(this.starts, middle);
             y = (int)(size[1] / 60 * (float) (elapsed / 60000));
 
-            paint.getTextBounds(data.getName(), 0, data.getName().length(), bounds);
-
-            //if (Pojo.getElapsedTime(this.starts, middle) + bounds.height() >= -margin &&
-            //    Pojo.getElapsedTime(this.ends, middle) - bounds.width() <= margin) {
-                // This is a correct cell to render the class name
-
             // if it isn't a correct cell, the text will not renderer, so...
-            canvas.drawText(data.getName(), (size[0] - bounds.width()) / 2, (bounds.height()) / 2 + y, paint);
-            //}
+            canvas.drawText(data.getName(), x, (bounds.height()) / 2 + y, paint);
         }
     }
 

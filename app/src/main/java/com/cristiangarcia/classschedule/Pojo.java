@@ -3,6 +3,7 @@ package com.cristiangarcia.classschedule;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.annotation.RestrictTo;
 import android.util.Log;
 
@@ -48,6 +49,15 @@ public class Pojo {
 
     public static String colorToString(int color) {
         return String.format("#%06X", (0xFFFFFF & color));
+    }
+
+    public static int[] colorToRGBA(int color) {
+        return new int[] {
+                Color.red(color),
+                Color.blue(color),
+                Color.green(color),
+                Color.alpha(color),
+        };
     }
 
     public static ClassData[] addValue(ClassData[] array, ClassData value) {
