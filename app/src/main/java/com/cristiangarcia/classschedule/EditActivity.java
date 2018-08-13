@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.Window;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
@@ -51,6 +52,8 @@ public class EditActivity extends AppCompatActivity {
     private ToggleButton tgFri;
     private ToggleButton tgSat;
     private ToggleButton tgSun;
+
+    private int[] colorPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,28 +228,27 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private void showColorDialog() {
-        if (colorDialog == null) {
-            colorView = new ColorPickerView(getBaseContext());
+        colorView = new ColorPickerView(getBaseContext());
+        if (colorPoint != null)
+            colorView.setCursor(colorPoint);
 
-            colorDialog = new AlertDialog.Builder(this)
-                    .setTitle(getResources().getString(R.string.color_picker_dialog_title))
-                    .setView(colorView)
-                    .setPositiveButton(getResources().getString(R.string.color_picker_dialog_ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            colorButton.setSelectedColor(colorView.getSelectedColor());
-                        }
-                    })
-                    .setNegativeButton(getResources().getString(R.string.color_picker_dialog_cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create();
-        } else {
-            colorView.setSelectedColor(colorButton.getSelectedColor());
-        }
+        colorDialog = new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.color_picker_dialog_title))
+                .setView(colorView)
+                .setPositiveButton(getResources().getString(R.string.color_picker_dialog_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        colorButton.setSelectedColor(colorView.getSelectedColor());
+                        colorPoint = colorView.getCursor();
+                    }
+                })
+                .setNegativeButton(getResources().getString(R.string.color_picker_dialog_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
 
         colorDialog.show();
 

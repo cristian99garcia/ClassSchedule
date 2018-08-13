@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -23,9 +24,11 @@ public class ColorPickerView extends View {
     private int circleX;
     private int circleY;
     private int circleR;
+    private int littleCircleR;
     int margin = 50;
+    int lineWidth = 40;
 
-    private boolean searchColor = true;
+    private boolean pendingLoadColor = true;
     boolean ignoreMoves = false;
 
     private int[] colors = {
@@ -39,12 +42,9 @@ public class ColorPickerView extends View {
     };
 
     private Paint paint1 = new Paint();
-    private Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Path circle = new Path();
+    private Paint paint2 = new Paint();
 
-    private SweepGradient gradient;
-    private RadialGradient rGradient;
-
+    private Shader shader;
     Bitmap bitmap;
 
     public ColorPickerView(Context context) {
@@ -55,56 +55,52 @@ public class ColorPickerView extends View {
         this.setDrawingCacheEnabled(true);
     }
 
+    private void configure() {
+        size[0] = getWidth();
+        size[1] = getHeight();
+
+        int s = size[0] / 2;
+        if (size[1] / 2 < size[0] / 2)
+            s = size[1] / 2;
+
+        circleX = size[0] / 2;
+        circleY = s + margin / 2;
+        circleR = s - margin * 2;
+
+        littleCircleR = circleR / 5 * 2;
+
+        shader = new SweepGradient(circleX, circleY, colors, null);
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         if (size[0] == size[1] && size[1] == 0) {
-            size[0] = getWidth();
-            size[1] = getHeight();
-
-            int s = size[0] / 2;
-            if (size[1] / 2 < size[0] / 2) s = size[1] / 2;
-
-            circleX = size[0] / 2;
-            circleY = s + margin / 2;
-            circleR = s - margin * 2;
-            circle.addCircle(circleX, circleY, circleR, Path.Direction.CW);
-            circle.close();
-
-            float p = 1f / (colors.length - 1);
-            float[] positions = new float[colors.length];
-
-            for (int i=0; i<colors.length; i++)
-                positions[i] = i * p;
-
-            gradient = new SweepGradient(circleX, circleY, colors, positions);
-            rGradient = new RadialGradient(circleX, circleY, circleR * 3 / 4, 0xFFFFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP);
+            configure();
         }
 
-        paint2.setShader(gradient);
-        canvas.drawPath(circle, paint2);
+        paint2.setShader(shader);
+        paint2.setStyle(Paint.Style.STROKE);
+        paint2.setStrokeWidth(lineWidth);
+        canvas.drawCircle(circleX, circleY, circleR, paint2);
 
-        paint2.setShader(rGradient);
-        canvas.drawPath(circle, paint2);
+        if (bitmap == null)
+            bitmap = this.getDrawingCache(true);
+
+        if (pendingLoadColor) {
+            loadColor(cursor[0], cursor[1]);
+            pendingLoadColor = false;
+        }
 
         if (drawCursor) {
-            paint1.setColor(Color.BLACK);
+            paint1.setColor(Color.WHITE);
             canvas.drawCircle(cursor[0], cursor[1], margin + 10, paint1);
-
-            if (searchColor) {
-                bitmap = this.getDrawingCache(true);
-
-                // FIXME: En una zona en específico, a veces se selecciona el color negro, no sé
-                // por qué, pero supongo que se debe a la divisón entre colores.
-                // No he podido reproducir el bug en dos zonas distintas en la misma instancia, hasta
-                // ahora ha aparecido en el amarillo y en el violeta.
-                selectedColor = bitmap.getPixel(cursor[0], cursor[1]);
-            } else {
-                searchColor = true;  // Reset for the next time
-            }
 
             paint1.setColor(selectedColor);
             canvas.drawCircle(cursor[0], cursor[1], margin, paint1);
         }
+
+        paint1.setColor(selectedColor);
+        canvas.drawCircle(circleX, circleY, littleCircleR, paint1);
     }
 
     @Override
@@ -131,20 +127,15 @@ public class ColorPickerView extends View {
         int x = (int)event.getX();
         int y = (int)event.getY();
 
-        if (Math.sqrt(Math.pow(x - circleX, 2) + Math.pow(y - circleY, 2)) <= circleR) {
-            // P(x, y) belongs to C
-            cursor[0] = x;
-            cursor[1] = y;
-            drawCursor = true;
+        double sqrt = Math.sqrt(Math.pow(x - circleX, 2) + Math.pow(y - circleY, 2));
+        boolean onRing = !(action == MotionEvent.ACTION_DOWN &&
+                (sqrt > circleR + lineWidth || sqrt < littleCircleR));
 
-            invalidate();
+        if (!onRing) {
+            // Ignore future MotionEvent.ACTION_MOVE
+            ignoreMoves = true;
+            return false;  // Important!
         } else {
-            if (action == MotionEvent.ACTION_DOWN) {
-                // Ignore future MotionEvent.ACTION_MOVE
-                ignoreMoves = true;
-                return false;  // Important!
-            }
-
             // find the line equation between P and (Cx, Cy) and after that find the intersections
             // between that line and the outline circumference
             //
@@ -153,13 +144,12 @@ public class ColorPickerView extends View {
             //
             // In a fastest way:
             // V = (P - C) => Answer = C + V / |V| * R;
+            // where V is the closest point that belongs to the circumference
 
-            int Vx = x - circleX;
-            int Vy = y - circleY;
+            ignoreMoves = false;
+            drawCursor = true;
 
-            // -2 because I don't want the point on the circumference, I want the point on the circle
-            this.cursor[0] = (int)(circleX + Vx * (circleR - 2) / Math.sqrt(Math.pow(Vx, 2) + Math.pow(Vy, 2)));
-            this.cursor[1] = (int)(circleY + Vy * (circleR - 2) / Math.sqrt(Math.pow(Vy, 2) + Math.pow(Vx, 2)));
+            loadColor(x, y);
 
             invalidate();
         }
@@ -173,7 +163,31 @@ public class ColorPickerView extends View {
 
     public void setSelectedColor(int color) {
         this.selectedColor = color;
-        this.searchColor = false;
         this.drawCursor = false;
+    }
+
+    private void loadColor(int x, int y) {
+        int Vx = x - circleX;
+        int Vy = y - circleY;
+
+        do {
+            Vx += 1;
+            this.cursor[0] = (int) (circleX + Vx * circleR / Math.sqrt(Math.pow(Vx, 2) + Math.pow(Vy, 2)));
+            this.cursor[1] = (int) (circleY + Vy * circleR / Math.sqrt(Math.pow(Vy, 2) + Math.pow(Vx, 2)));
+
+            selectedColor = bitmap.getPixel(cursor[0], cursor[1]);
+        } while (selectedColor == Color.BLACK || selectedColor == Color.WHITE);
+    }
+
+    public int[] getCursor() {
+        return cursor;
+    }
+
+    public void setCursor(int[] cursor) {
+        this.cursor = cursor;
+        drawCursor = true;
+
+        if (bitmap == null)
+            pendingLoadColor = true;
     }
 }
