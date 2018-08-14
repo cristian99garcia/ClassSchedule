@@ -3,12 +3,14 @@ package com.cristiangarcia.classschedule;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -72,14 +74,23 @@ public class EditActivity extends AppCompatActivity {
         tvName = findViewById(R.id.class_name_input);
         tvAdditional = findViewById(R.id.class_opt_data);
         colorButton = findViewById(R.id.color_picker_button);
+        tgSun = findViewById(R.id.toggleSun);
         tgMon = findViewById(R.id.toggleMon);
         tgTue = findViewById(R.id.toggleTue);
         tgWed = findViewById(R.id.toggleWed);
         tgThu = findViewById(R.id.toggleThu);
         tgFri = findViewById(R.id.toggleFri);
         tgSat = findViewById(R.id.toggleSat);
-        tgSun = findViewById(R.id.toggleSun);
         classesRecycler = findViewById(R.id.classes_recyclerview);
+
+        SharedPreferences preferences = getSharedPreferences(SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        tgSun.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_sunday), true));
+        tgMon.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_monday), true));
+        tgTue.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_tuesday), true));
+        tgWed.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_wednesday), true));
+        tgThu.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_thursday), true));
+        tgFri.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_friday), true));
+        tgSat.setEnabled(preferences.getBoolean(getResources().getString(R.string.key_saturday), true));
 
         if (extras != null && intent.hasExtra(getResources().getString(R.string.put_json)))
             previousData = extras.getString(getResources().getString(R.string.put_json));

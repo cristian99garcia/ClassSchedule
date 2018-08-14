@@ -2,7 +2,9 @@ package com.cristiangarcia.classschedule;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -104,6 +106,13 @@ public class TimetableWidgetService extends RemoteViewsService {
 
             Calendar calendar = Calendar.getInstance();
             int day = calendar.get(Calendar.DAY_OF_WEEK);
+            SharedPreferences preferences = getApplicationContext().getSharedPreferences(SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+            String key = Pojo.getDayKey(getResources(), day);
+
+            if (!preferences.getBoolean(key, true)) {
+                jsons = new JSONObject[] {};
+                return;
+            }
 
             try {
                 FileInputStream file = openFileInput("data.json");

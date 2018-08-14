@@ -74,13 +74,14 @@ public class TimeRow extends TableRow {
 
         TimeCell tc;
 
-        for (int day: header.getVisibleDays()) {
-            if (day == 0) continue;
+        boolean[] days = header.getVisibleDays();
+        for (int i=0; i<days.length; i++) {
+            if (!days[i]) continue;
 
             tc = new TimeCell(getContext(), starts, ends);
             tc.setSize(size);
             this.addView(tc, false);
-            this.timeCells[day - 1] = tc;
+            this.timeCells[i] = tc;
         }
     }
 

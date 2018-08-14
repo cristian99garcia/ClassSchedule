@@ -3,8 +3,4 @@
     <declare-styleable name="TimeRow">
         <attr name="timeText" format="string" />
     </declare-styleable>
-
-    <declare-styleable name="HeaderRow">
-        <attr name="visibleDays" format="string" />
-    </declare-styleable>
 </resources>

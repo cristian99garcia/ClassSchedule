@@ -26,9 +26,6 @@
         </activity>
         <activity
             android:name=".EditActivity">
-            <!--
-            android:parentActivityName=".MainActivity">
-            -->
 
             <!-- -4.0 support -->
             <meta-data

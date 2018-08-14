@@ -6,6 +6,7 @@
     <color name="table_headers_text">#424242</color>
     <color name="time_label">#b0b0b0</color>
     <color name="additional_data">#aaa</color>
+    <color name="disabled_shape_oval">#dbdbdb</color>
 
     <color name="widget_title">#fff</color>
     <color name="widget_titlebar">#09C</color>

@@ -1,55 +1,40 @@
 package com.cristiangarcia.classschedule;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v7.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class HeaderRow extends TableRow {
 
-    int[] defaultVisibleDays = {
-            Calendar.MONDAY,
-            Calendar.TUESDAY,
-            Calendar.WEDNESDAY,
-            Calendar.THURSDAY,
-            Calendar.FRIDAY
-    };
-
-    private int[] visibleDays = new int[7];
+    private boolean[] visibleDays;
 
     private int columnWidth;
 
     public HeaderRow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        TypedArray array = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.HeaderRow,
-                0, 0);
+        SharedPreferences preferences = context.getSharedPreferences(SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        visibleDays = new boolean[] {
+                preferences.getBoolean(getResources().getString(R.string.key_sunday), false),
+                preferences.getBoolean(getResources().getString(R.string.key_monday), true),
+                preferences.getBoolean(getResources().getString(R.string.key_tuesday), true),
+                preferences.getBoolean(getResources().getString(R.string.key_wednesday), true),
+                preferences.getBoolean(getResources().getString(R.string.key_thursday), false),
+                preferences.getBoolean(getResources().getString(R.string.key_friday), true),
+                preferences.getBoolean(getResources().getString(R.string.key_saturday), false)
+        };
 
-        try {
-            String text = array.getString(R.styleable.HeaderRow_visibleDays);
-
-            if (text != null) {
-                String[] _days = text.split(" ");
-
-                for (int i = 0; i < _days.length; i++) {
-                    visibleDays[i] = Pojo.getDayId(_days[i]);  // context.getString(id)
-                }
-            }
-        } finally {
-            if (visibleDays.length == 0) {
-                visibleDays = defaultVisibleDays;
-            }
-
-            array.recycle();
-        }
+        Log.d("HEADERROW", Arrays.toString(visibleDays));
     }
 
     private void createDaysTextViews() {
@@ -64,11 +49,11 @@ public class HeaderRow extends TableRow {
         lp = new LayoutParams();
         lp.width = columnWidth;
 
-        for (int day: this.visibleDays) {
-            if (day == 0) continue;
+        for (int i=0; i<visibleDays.length; i++) {
+            if (!visibleDays[i]) continue;
 
             tv = new TextView(getContext());
-            tv.setText(Pojo.getDayAbbreviation(getResources(), day));
+            tv.setText(Pojo.getDayAbbreviation(getResources(), i + 1));
             tv.setLayoutParams(lp);
 
             if (Build.VERSION.SDK_INT >= 17)
@@ -88,7 +73,7 @@ public class HeaderRow extends TableRow {
         createDaysTextViews();
     }
 
-    public int[] getVisibleDays() {
+    public boolean[] getVisibleDays() {
         return this.visibleDays;
     }
 }

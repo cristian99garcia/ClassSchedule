@@ -2,6 +2,7 @@ package com.cristiangarcia.classschedule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.annotation.RestrictTo;
@@ -60,10 +61,19 @@ public class Pojo {
         };
     }
 
+    public static int[] addValue(int[] array, int value) {
+        int[] _array = new int[array.length + 1];
+        for (int i=0; i<array.length; i++)
+            _array[i] = array[i];
+
+        _array[array.length] = value;
+        return _array;
+    }
+
     public static ClassData[] addValue(ClassData[] array, ClassData value) {
         ClassData[] _array = new ClassData[array.length + 1];
         for (int i=0; i<array.length; i++) {
-            array[i] = array[i];
+            _array[i] = array[i];
         }
 
         _array[array.length] = value;
@@ -203,6 +213,34 @@ public class Pojo {
 
             case Calendar.SATURDAY:
                 return resources.getString(R.string.sat);
+
+            default:
+                return "";
+        }
+    }
+
+    public static String getDayKey(Resources resources, int day) {
+        switch (day) {
+            case Calendar.SUNDAY:
+                return resources.getString(R.string.key_sunday);
+
+            case Calendar.MONDAY:
+                return resources.getString(R.string.key_monday);
+
+            case Calendar.TUESDAY:
+                return resources.getString(R.string.key_tuesday);
+
+            case Calendar.WEDNESDAY:
+                return resources.getString(R.string.key_wednesday);
+
+            case Calendar.THURSDAY:
+                return resources.getString(R.string.key_thursday);
+
+            case Calendar.FRIDAY:
+                return resources.getString(R.string.key_friday);
+
+            case Calendar.SATURDAY:
+                return resources.getString(R.string.key_saturday);
 
             default:
                 return "";

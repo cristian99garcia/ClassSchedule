@@ -62,8 +62,6 @@ public class TimetableFragment extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences(
                 SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME,
                 Context.MODE_PRIVATE);
-
-        // Log.d("getString", preferences.getString("igrjierj", "YoQueSe"));
     }
 
     @Override

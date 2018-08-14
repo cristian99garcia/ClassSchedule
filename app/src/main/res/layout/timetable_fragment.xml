@@ -23,8 +23,7 @@
                 <com.cristiangarcia.classschedule.HeaderRow
                     android:id="@+id/header_row"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:visibleDays="mon tue wed thu fri" />
+                    android:layout_height="wrap_content" />
 
             </TableLayout>
 
