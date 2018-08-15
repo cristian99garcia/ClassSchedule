@@ -347,6 +347,9 @@ public class Pojo {
     }
 
     static void addLog(Context context, String log) {
+        if (context == null)
+            return;
+
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("HH:mm:ss");
         String content = format.format(date) + "\n" + log;
