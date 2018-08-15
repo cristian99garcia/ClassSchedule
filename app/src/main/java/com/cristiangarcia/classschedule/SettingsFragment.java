@@ -1,6 +1,9 @@
 package com.cristiangarcia.classschedule;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -147,5 +150,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         setDisplayHomeAsUpEnabled(false);
         setPreferencesFromResource(R.xml.settings, null);
+    }
+
+    @Override
+    public void setDivider(Drawable divider) {
+        super.setDivider(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+    @Override
+    public void setDividerHeight(int height) {
+        super.setDividerHeight(0);
     }
 }
