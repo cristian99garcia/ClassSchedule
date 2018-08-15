@@ -47,9 +47,6 @@ public class TimetableFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (timeRows == null)
-            timeRows = new TimeRow[lastHour - firstHour];
-
         tickReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -72,12 +69,18 @@ public class TimetableFragment extends Fragment {
 
         if (lastHour < firstHour)
             lastHour = firstHour + 1;
+
+        if (timeRows == null)
+            timeRows = new TimeRow[lastHour - firstHour];
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(tickReceiver);
+
+        if (getActivity() != null)
+            getActivity().unregisterReceiver(tickReceiver);
     }
 
     private void timeLineTick() {

@@ -64,11 +64,11 @@ public class HourPreferenceFragmentCompat extends PreferenceDialogFragmentCompat
         if (preference instanceof HourPreference)
             end = ((HourPreference)preference).getHourEnd();
 
-        startPicker.setMaxValue(1);
+        startPicker.setMinValue(1);
         startPicker.setMaxValue(24);
         startPicker.setValue(start);
 
-        endPicker.setMaxValue(1);
+        endPicker.setMinValue(1);
         endPicker.setMaxValue(24);
         endPicker.setValue(end);
     }
