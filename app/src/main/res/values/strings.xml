@@ -111,4 +111,5 @@
     <string name="key_saturday" translatable="false">saturdayKey</string>
     <string name="key_notify_classes" translatable="false">notifyClassesKey</string>
     <string name="key_notify_tests" translatable="false">notifyTestsKey</string>
+    <string name="key_hours" translatable="false">visibleHoursKey</string>
 </resources>

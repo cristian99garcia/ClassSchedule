@@ -53,17 +53,25 @@ public class TimetableFragment extends Fragment {
         tickReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0) {
+                if (intent.getAction() != null && intent.getAction().compareTo(Intent.ACTION_TIME_TICK) == 0) {
                     timeLineTick();
                 }
             }
         };
 
-        getActivity().registerReceiver(tickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+        if (getActivity() != null)
+            getActivity().registerReceiver(tickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
         SharedPreferences preferences = getActivity().getSharedPreferences(
                 SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME,
                 Context.MODE_PRIVATE);
+
+        String hours = preferences.getString(getResources().getString(R.string.key_hours), "6:18");
+        firstHour = Integer.parseInt(hours.split(":")[0]);
+        lastHour = Integer.parseInt(hours.split(":")[1]);
+
+        if (lastHour < firstHour)
+            lastHour = firstHour + 1;
     }
 
     @Override

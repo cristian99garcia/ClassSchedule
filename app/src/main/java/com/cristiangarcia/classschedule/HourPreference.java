@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.widget.NumberPicker;
 
 public class HourPreference extends DialogPreference {
 
     private int hourStart = 8;
-    private int hourEnd = 22;
+    private int hourEnd = 18;
 
     public HourPreference(Context context) {
         this(context, null);
@@ -44,7 +46,7 @@ public class HourPreference extends DialogPreference {
         persistString(this.hourStart + ":" + hour);
     }
 
-    private void setHours(String data) {
+    public void setHours(String data) {
         this.hourStart = Integer.parseInt(data.split(":")[0]);
         this.hourEnd = Integer.parseInt(data.split(":")[1]);
         persistString(data);
@@ -57,13 +59,12 @@ public class HourPreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
-        int start, end;
         if (restorePersistedValue) {
             setHourStart(this.hourStart);
             setHourEnd(this.hourEnd);
         } else {
-            start = Integer.parseInt(defaultValue.toString().split(":")[0]);
-            end = Integer.parseInt(defaultValue.toString().split(":")[1]);
+            int start = Integer.parseInt(defaultValue.toString().split(":")[0]);
+            int end = Integer.parseInt(defaultValue.toString().split(":")[1]);
             setHours(getPersistedString(start + ":" + end));
         }
     }

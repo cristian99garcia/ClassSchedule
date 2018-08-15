@@ -67,6 +67,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             preference = (SwitchPreferenceCompat) findPreference(key);
             preference.setChecked(sp.getBoolean(key, true));
         }
+
+        HourPreference hPreference = (HourPreference) findPreference(getResources().getString(R.string.key_hours));
+        hPreference.setHours(sp.getString(getResources().getString(R.string.key_hours), "6:22"));
     }
 
     @Override
@@ -82,11 +85,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
         if (dialogFragment != null) {
             dialogFragment.setTargetFragment(this, 0);
-            dialogFragment.show(this.getFragmentManager(),
+            if (getFragmentManager() != null)
+                dialogFragment.show(getFragmentManager(),
                     "android.support.v7.preference.PreferenceFragment.DIALOG");
-        } else {
+        } else
             super.onDisplayPreferenceDialog(preference);
-        }
     }
 
     @Override
@@ -120,19 +123,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             Pojo.updateWidgets(getActivity());
     }
 
-
     public void setDisplayHomeAsUpEnabled(boolean show) {
         AppCompatActivity activity = (AppCompatActivity)getActivity();
-        if (activity == null) {
-            Log.d("setDisplayHome", "ACTIVITY NULL");
+        if (activity == null)
             return;
-        }
 
         ActionBar bar = activity.getSupportActionBar();
-        if (bar == null) {
-            Log.d("setDisplayHome", "ACTIONBAR NULL");
+        if (bar == null)
             return;
-        }
 
         bar.setDisplayHomeAsUpEnabled(show);
     }

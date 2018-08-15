@@ -53,10 +53,10 @@
         </android.support.v7.preference.PreferenceScreen>
 
         <com.cristiangarcia.classschedule.HourPreference
-            android:key="visible_hours_preference"
+            android:key="@string/key_hours"
             android:title="@string/visible_hours"
             android:summary=""
-            android:defaultValue="6:22" />
+            android:defaultValue="6:18" />
 
     </PreferenceCategory>
 
