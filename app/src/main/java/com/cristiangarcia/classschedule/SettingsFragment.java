@@ -6,6 +6,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
@@ -69,7 +70,10 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
 
         HourPreference hPreference = (HourPreference) findPreference(getResources().getString(R.string.key_hours));
-        hPreference.setHours(sp.getString(getResources().getString(R.string.key_hours), "6:22"));
+        hPreference.setHours(sp.getString(getResources().getString(R.string.key_hours), "6:18"));
+
+        CheckBoxPreference notifyTests = (CheckBoxPreference) findPreference(getResources().getString(R.string.key_notify_tests));
+        notifyTests.setChecked(sp.getBoolean(getResources().getString(R.string.key_notify_tests), false));
     }
 
     @Override

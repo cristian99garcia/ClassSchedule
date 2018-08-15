@@ -102,7 +102,7 @@ public class TimeCell extends View {
             return;
 
         int y = size[1] * minuteLine / 60;
-        paint.setStrokeWidth(10);
+        paint.setStrokeWidth(bgRect.height() / 30);  // Should be 60, but 30 looks better
         paint.setColor(Color.RED);
         canvas.drawLine(0, y, size[0], y, paint);
     }
