@@ -33,8 +33,6 @@ public class HeaderRow extends TableRow {
                 preferences.getBoolean(getResources().getString(R.string.key_friday), true),
                 preferences.getBoolean(getResources().getString(R.string.key_saturday), false)
         };
-
-        Log.d("HEADERROW", Arrays.toString(visibleDays));
     }
 
     private void createDaysTextViews() {

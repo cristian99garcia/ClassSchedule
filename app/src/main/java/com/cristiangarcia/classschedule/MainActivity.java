@@ -22,11 +22,14 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     private String savedData = "";
-    private TimetableFragment fg;
+    private TimetableFragment timetableFragment;
+    private SettingsFragment settingsFragment;
+    private BottomNavigationView navigation;
 
     private enum VisibleFragment {
         TIMETABLE,
@@ -37,23 +40,37 @@ public class MainActivity extends AppCompatActivity {
 
     private VisibleFragment currentFragment = VisibleFragment.NULL;
 
+    private void showTimetableFromNavigation() {
+        navigation.setSelectedItemId(R.id.navigation_timetable);
+    }
+
     private void showTimetable() {
         if (currentFragment == VisibleFragment.TIMETABLE)
             return;
 
+        if (currentFragment == VisibleFragment.SETTINGS)
+            settingsFragment.setDisplayHomeAsUpEnabled(false);
+
+        settingsFragment = null;
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        fg = TimetableFragment.newInstance();
-        fg.loadData(savedData);
+        timetableFragment = TimetableFragment.newInstance();
+        timetableFragment.loadData(savedData);
 
         if (currentFragment != VisibleFragment.NULL)
             transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
 
-        transaction.replace(R.id.frame_layout, fg);
+        transaction.replace(R.id.frame_layout, timetableFragment);
         transaction.commit();
 
         currentFragment = VisibleFragment.TIMETABLE;
     }
+
+    /*
+    private void showTestsFromNavigation() {
+        navigation.setSelectedItemId(R.id.navigation_tests);
+    }
+    */
 
     private void showTests() {
         if (currentFragment == VisibleFragment.TESTS)
@@ -61,10 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (fg != null)
-            savedData = Pojo.classDataToJSON(fg.getData());
+        if (currentFragment == VisibleFragment.TIMETABLE)
+            savedData = Pojo.classDataToJSON(timetableFragment.getData());
 
-        fg = null;
+        else if (currentFragment == VisibleFragment.SETTINGS)
+            settingsFragment.setDisplayHomeAsUpEnabled(false);
+
+        settingsFragment = null;
+        timetableFragment = null;
         Fragment fragment = TestsFragment.newInstance();
 
         if (currentFragment == VisibleFragment.TIMETABLE)
@@ -78,22 +99,28 @@ public class MainActivity extends AppCompatActivity {
         currentFragment = VisibleFragment.TESTS;
     }
 
+    /*
+    private void showSettingsFromNavigation() {
+        navigation.setSelectedItemId(R.id.navigation_settings);
+    }
+    */
+
     private void showSettings() {
         if (currentFragment == VisibleFragment.SETTINGS)
             return;
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        if (fg != null)
-            savedData = Pojo.classDataToJSON(fg.getData());
+        if (currentFragment == VisibleFragment.TIMETABLE)
+            savedData = Pojo.classDataToJSON(timetableFragment.getData());
 
-        fg = null;
-        PreferenceFragmentCompat fragment = SettingsFragment.newInstance();
+        timetableFragment = null;
+        settingsFragment = SettingsFragment.newInstance();
 
         if (currentFragment != VisibleFragment.NULL)
             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
 
-        transaction.replace(R.id.frame_layout, fragment);
+        transaction.replace(R.id.frame_layout, settingsFragment);
         transaction.commit();
 
         currentFragment = VisibleFragment.SETTINGS;
@@ -130,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         showTimetable();
@@ -161,10 +188,10 @@ public class MainActivity extends AppCompatActivity {
                     .setColor(bundle.getInt(getResources().getString(R.string.delete_class_color)))
                     .setDay(s);
 
-            fg.deleteClassData(data);
+            timetableFragment.deleteClassData(data);
         }
 
-        fg.loadData(json);
+        timetableFragment.loadData(json);
 
         if (intent.hasExtra(getResources().getString(R.string.new_class)) && bundle != null && bundle.getBoolean(getResources().getString(R.string.new_class))) {
             String[] days = bundle.getStringArray(getResources().getString(R.string.add_class_days));
@@ -184,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         .setColor(bundle.getInt(getResources().getString(R.string.add_class_color)))
                         .setDay(day);
 
-                // Log.d("New class data", data.toString() + " " + fg.collide(data));
-                ClassData collidesWith = fg.collide(data);
+                ClassData collidesWith = timetableFragment.collide(data);
 
                 final ClassData _d = data;
                 final String js = json;
@@ -203,15 +229,9 @@ public class MainActivity extends AppCompatActivity {
                     snackbar.show();
                 }
 
-                fg.addClassData(data);
+                timetableFragment.addClassData(data);
             }
         }
-
-        /*
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        boolean monday = sharedPref.getBoolean(getString(R.string.key_monday), false);
-        Log.d("onCreate", "Show monday? " + monday);
-        */
 
         TimetableWidget.scheduleNextUpdate(this);
         saveData();
@@ -223,11 +243,35 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (currentFragment == VisibleFragment.SETTINGS && settingsFragment.nested)
+            settingsFragment.showMainPreferenceScreen();
+        else if (currentFragment != VisibleFragment.TIMETABLE)
+            showTimetableFromNavigation();
+        else
+            super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (currentFragment == VisibleFragment.SETTINGS && settingsFragment.nested)
+                    settingsFragment.showMainPreferenceScreen();
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void saveData() {
         String content;  // = "[]";
 
-        if (fg != null)
-            content = Pojo.classDataToJSON(Pojo.joinArrays(fg.getData(), fg.getWaitingData()));
+        if (timetableFragment != null)
+            content = Pojo.classDataToJSON(Pojo.joinArrays(timetableFragment.getData(), timetableFragment.getWaitingData()));
         else
             content = savedData;
 
@@ -240,14 +284,6 @@ public class MainActivity extends AppCompatActivity {
             Pojo.addLog(getApplicationContext(), e.getMessage());
         }
 
-        updateWidgets();
+        Pojo.updateWidgets(this);
     }
-
-    private void updateWidgets() {
-        AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
-        final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(this, TimetableWidget.class));
-        for (int id : appWidgetIds)
-            manager.notifyAppWidgetViewDataChanged(id, R.id.widget_listview);
-    }
-
 }

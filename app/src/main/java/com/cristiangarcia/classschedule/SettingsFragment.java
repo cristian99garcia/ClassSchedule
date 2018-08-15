@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
@@ -11,10 +13,15 @@ import android.support.v7.preference.PreferenceScreen;
 import android.support.v7.preference.SwitchPreferenceCompat;
 import android.util.Log;
 
-public class SettingsFragment extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
+import java.util.Calendar;
+
+public class SettingsFragment extends PreferenceFragmentCompat implements PreferenceFragmentCompat.OnPreferenceStartScreenCallback, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final static String TAG = SettingsFragment.class.getName();
     public final static String SETTINGS_SHARED_PREFERENCES_FILE_NAME = TAG + ".txt";
+
+    public boolean nested;
+    PreferenceFragmentCompat fragment;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -43,6 +50,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         SharedPreferences sp = preferenceManager.getSharedPreferences();
         if (!sp.getBoolean("settingsSavedOnce", false)) {
             sp.edit().putBoolean("settingsSavedOnce", true).apply();
+
+            if (getContext() == null)
+                return;
 
             SharedPreferences _default = PreferenceManager.getDefaultSharedPreferences(getContext());
             String name;
@@ -86,7 +96,54 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
     @Override
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat preferenceFragmentCompat, PreferenceScreen preferenceScreen) {
-        preferenceFragmentCompat.setPreferenceScreen(preferenceScreen);
+        setPreferenceScreen(preferenceScreen);
+        nested = true;
+
+        setDisplayHomeAsUpEnabled(true);
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences preferences, String key) {
+        if (getActivity() != null && Pojo.getDayFromKey(getResources(), key) == Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+            Pojo.updateWidgets(getActivity());
+    }
+
+
+    public void setDisplayHomeAsUpEnabled(boolean show) {
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        if (activity == null) {
+            Log.d("setDisplayHome", "ACTIVITY NULL");
+            return;
+        }
+
+        ActionBar bar = activity.getSupportActionBar();
+        if (bar == null) {
+            Log.d("setDisplayHome", "ACTIONBAR NULL");
+            return;
+        }
+
+        bar.setDisplayHomeAsUpEnabled(show);
+    }
+
+    public void showMainPreferenceScreen() {
+        if (!nested)
+            return;
+
+        nested = false;
+
+        setDisplayHomeAsUpEnabled(false);
+        setPreferencesFromResource(R.xml.settings, null);
     }
 }

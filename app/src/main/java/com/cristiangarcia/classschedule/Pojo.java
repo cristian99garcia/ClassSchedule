@@ -1,5 +1,8 @@
 package com.cristiangarcia.classschedule;
 
+import android.app.Activity;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -245,6 +248,40 @@ public class Pojo {
             default:
                 return "";
         }
+    }
+
+    public static int getDayFromKey(Resources resources, String key) {
+        if (key.equals(resources.getString(R.string.key_sunday)))
+            return Calendar.SUNDAY;
+
+        else if (key.equals(resources.getString(R.string.key_monday)))
+            return Calendar.MONDAY;
+
+        else if (key.equals(resources.getString(R.string.key_tuesday)))
+            return Calendar.TUESDAY;
+
+        else if (key.equals(resources.getString(R.string.key_wednesday)))
+            return Calendar.WEDNESDAY;
+
+        else if (key.equals(resources.getString(R.string.key_thursday)))
+            return Calendar.THURSDAY;
+
+        else if (key.equals(resources.getString(R.string.key_friday)))
+            return Calendar.FRIDAY;
+
+
+        else if (key.equals(resources.getString(R.string.key_saturday)))
+            return Calendar.SATURDAY;
+
+        else
+            return 0;
+    }
+
+    public static void updateWidgets(Activity activity) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(activity.getApplicationContext());
+        final int[] appWidgetIds = manager.getAppWidgetIds(new ComponentName(activity, TimetableWidget.class));
+        for (int id : appWidgetIds)
+            manager.notifyAppWidgetViewDataChanged(id, R.id.widget_listview);
     }
 
     static Intent prepareIntentToEditClass(Context context, ClassData data) {
