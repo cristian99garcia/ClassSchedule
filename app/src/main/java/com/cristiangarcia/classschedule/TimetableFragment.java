@@ -353,11 +353,16 @@ public class TimetableFragment extends Fragment {
         ClassData[] cellData;
 
         for (TimeRow timeRow: timeRows) {
+            if (timeRow == null)
+                continue;
+
             for (TimeCell cell: timeRow.getTimeCells()) {
-                if (cell == null) continue;
+                if (cell == null)
+                    continue;
 
                 cellData = cell.getClasses();
-                if (cellData == null) continue;
+                if (cellData == null)
+                    continue;
 
                 for (ClassData _value: cellData) {
                     if (_value.equalsTo(data)) {
