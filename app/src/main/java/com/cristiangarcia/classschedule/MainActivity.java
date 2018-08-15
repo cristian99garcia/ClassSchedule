@@ -25,51 +25,102 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int currentFragmentId = -1;
     private String savedData = "";
     private TimetableFragment fg;
+
+    private enum VisibleFragment {
+        TIMETABLE,
+        TESTS,
+        SETTINGS,
+        NULL
+    }
+
+    private VisibleFragment currentFragment = VisibleFragment.NULL;
+
+    private void showTimetable() {
+        if (currentFragment == VisibleFragment.TIMETABLE)
+            return;
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        fg = TimetableFragment.newInstance();
+        fg.loadData(savedData);
+
+        if (currentFragment != VisibleFragment.NULL)
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+
+        transaction.replace(R.id.frame_layout, fg);
+        transaction.commit();
+
+        currentFragment = VisibleFragment.TIMETABLE;
+    }
+
+    private void showTests() {
+        if (currentFragment == VisibleFragment.TESTS)
+            return;
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (fg != null)
+            savedData = Pojo.classDataToJSON(fg.getData());
+
+        fg = null;
+        Fragment fragment = TestsFragment.newInstance();
+
+        if (currentFragment == VisibleFragment.TIMETABLE)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+        else if (currentFragment != VisibleFragment.NULL)
+            transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
+
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.commit();
+
+        currentFragment = VisibleFragment.TESTS;
+    }
+
+    private void showSettings() {
+        if (currentFragment == VisibleFragment.SETTINGS)
+            return;
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        if (fg != null)
+            savedData = Pojo.classDataToJSON(fg.getData());
+
+        fg = null;
+        PreferenceFragmentCompat fragment = SettingsFragment.newInstance();
+
+        if (currentFragment != VisibleFragment.NULL)
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
+
+        transaction.replace(R.id.frame_layout, fragment);
+        transaction.commit();
+
+        currentFragment = VisibleFragment.SETTINGS;
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if (currentFragmentId == item.getItemId())
-                return true;
+            switch (item.getItemId()) {
+                case R.id.navigation_timetable:
+                    showTimetable();
+                    break;
 
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                case R.id.navigation_tests:
+                    showTests();
+                    break;
 
-            if (item.getItemId() == R.id.navigation_timetable) {
-                fg = TimetableFragment.newInstance();
-                fg.loadData(savedData);
-                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-                transaction.replace(R.id.frame_layout, fg);
+                case R.id.navigation_settings:
+                    showSettings();
+                    break;
 
-            } else if (item.getItemId() == R.id.navigation_tests) {
-                if (fg != null) savedData = Pojo.classDataToJSON(fg.getData());
-                fg = null;
-
-                Fragment fragment = TestsFragment.newInstance();
-                if (currentFragmentId == R.id.navigation_timetable)
-                    transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                else
-                    transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-
-                transaction.replace(R.id.frame_layout, fragment);
-            } else if (item.getItemId() == R.id.navigation_settings) {
-                if (fg != null) savedData = Pojo.classDataToJSON(fg.getData());
-                fg = null;
-
-                PreferenceFragmentCompat fragment = SettingsFragment.newInstance();
-                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left);
-                transaction.replace(R.id.frame_layout, fragment);
-            } else {
-                return false;
+                default:
+                    return false;
             }
 
-            currentFragmentId = item.getItemId();
-            //transaction.addToBackStack(null);
-            transaction.commit();
             return true;
         }
     };
@@ -82,11 +133,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Manually displaying the timetable fragment
-        fg = TimetableFragment.newInstance();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, fg);
-        transaction.commit();
+        showTimetable();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();

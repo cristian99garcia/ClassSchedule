@@ -1,10 +1,12 @@
 package com.cristiangarcia.classschedule;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -95,14 +97,22 @@ public class TimetableFragment extends Fragment {
         }
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if (inflater == null)
+            return null;
+
         return inflater.inflate(R.layout.timetable_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
+    public void onViewCreated(@Nullable View view, @Nullable Bundle savedInstanceState) {
+        Activity activity = getActivity();
+        if (activity == null)
+            return;
+
+        Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
@@ -112,7 +122,10 @@ public class TimetableFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), EditActivity.class);
                 intent.putExtra(getResources().getString(R.string.put_json), Pojo.classDataToJSON(data));
-                getContext().startActivity(intent);
+
+                Context context = getContext();
+                if (context != null)
+                    context.startActivity(intent);
             }
         });
 
@@ -151,6 +164,11 @@ public class TimetableFragment extends Fragment {
                                     ClassData d = ((TimeCell)timeCell).getDataAtPoint(event.getY());
                                     if (d != null) {
                                         Intent intent = Pojo.prepareIntentToEditClass(getContext(), d);
+
+                                        Context context = getContext();
+                                        if (context == null)
+                                            return true;
+
                                         intent.putExtra(getContext().getResources().getString(R.string.put_json), Pojo.classDataToJSON(data));  // IMPORTANT: load data at clicking time
                                         getContext().startActivity(intent);
                                     }
