@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
@@ -150,7 +151,7 @@ public class TimeCell extends View {
                 paint.setColor(Color.WHITE);
 
             elapsed = Pojo.getElapsedTime(this.starts, middle);
-            y = (int)(size[1] / 60 * (float) (elapsed / 60000));
+            y = (int)(size[1] / 60.0 * (float) (elapsed / 60000.0));
 
             // if it isn't a correct cell, the text will not renderer, so...
             canvas.drawText(data.getName(), x, (bounds.height()) / 2 + y, paint);
@@ -195,14 +196,10 @@ public class TimeCell extends View {
         }
     }
 
-    public boolean isContained(ClassData data) {
-        if (data == null)
-            return false;
-
-        if (Pojo.getElapsedTime(data.getEndTime(), this.getStartTime()) >= 0)  // The class ends before this cell
-            return false;
-
-        return Pojo.getElapsedTime(this.getEndTime(), data.getStartTime()) < 0;  // The class starts before this cell's end
+    public boolean isContained(@Nullable ClassData data) {
+        return data != null &&
+               Pojo.getElapsedTime(data.getEndTime(), this.getStartTime()) < 0 &&  // The class ends before this cell
+               Pojo.getElapsedTime(this.getEndTime(), data.getStartTime()) < 0;    // The class starts before this cell's end
     }
 
     public void removeClassAt(int index) {
