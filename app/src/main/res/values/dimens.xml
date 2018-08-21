@@ -2,5 +2,5 @@
     <dimen name="timetable_font_size">20sp</dimen>
     <dimen name="edit_activity_margin">50dp</dimen>
     <dimen name="widget_margin">12dp</dimen>
-    <dimen name="headerrow_vertical_margin">4dp</dimen>
+    <dimen name="headerrow_vertical_margin">2dp</dimen>
 </resources>

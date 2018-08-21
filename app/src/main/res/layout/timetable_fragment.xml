@@ -19,7 +19,9 @@
             <com.cristiangarcia.classschedule.HeaderRow
                 android:id="@+id/header_row"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/headerrow_vertical_margin"
+                android:layout_marginBottom="@dimen/headerrow_vertical_margin"/>
 
             <ScrollView
                 android:layout_width="match_parent"
