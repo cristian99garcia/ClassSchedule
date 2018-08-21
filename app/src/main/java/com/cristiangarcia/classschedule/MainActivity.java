@@ -174,21 +174,22 @@ public class MainActivity extends AppCompatActivity {
         // Procedure:
         //   Save delete class data
         //   Load previous data
-        //   Add class new data
+        //   Add new class data
 
+        ClassData deleteData = null;
         if (intent.hasExtra(getResources().getString(R.string.delete_class)) && bundle != null && bundle.getBoolean(getResources().getString(R.string.delete_class))) {
-            ClassData data = new ClassData();
+            deleteData = new ClassData();
             String[] arr = bundle.getStringArray(getResources().getString(R.string.delete_class_days));
             String s = (arr != null)? arr[0]: "";
 
-            data.setName(bundle.getString(getResources().getString(R.string.delete_class_name)))
+            deleteData.setName(bundle.getString(getResources().getString(R.string.delete_class_name)))
                     .setAdditionalData(bundle.getString(getResources().getString(R.string.delete_class_additional_data)))
                     .setStartTime(bundle.getString(getResources().getString(R.string.delete_class_start_time)))
                     .setEndTime(bundle.getString(getResources().getString(R.string.delete_class_end_time)))
                     .setColor(bundle.getInt(getResources().getString(R.string.delete_class_color)))
                     .setDay(s);
 
-            timetableFragment.deleteClassData(data);
+            timetableFragment.deleteClassData(deleteData);
         }
 
         timetableFragment.loadData(json);
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                         .setColor(bundle.getInt(getResources().getString(R.string.add_class_color)))
                         .setDay(day);
 
-                ClassData collidesWith = timetableFragment.collide(data);
+                ClassData collidesWith = timetableFragment.collide(data, deleteData);
 
                 final ClassData _d = data;
                 final String js = json;

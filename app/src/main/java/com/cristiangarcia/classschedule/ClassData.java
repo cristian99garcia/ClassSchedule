@@ -127,11 +127,14 @@ public class ClassData {
         //     Log.d("COLLIDE CHECK",  "(" + this.starts + "-" + this.ends + ") (" + data.getStartTime() + "-" + data.getEndTime() + ") " + (Pojo.getElapsedTime(starts, data.getStartTime()) > 0 && Pojo.getElapsedTime(data.getEndTime(), ends) > 0) + " " + (Pojo.getElapsedTime(data.getStartTime(), starts) > 0 && Pojo.getElapsedTime(ends, data.getEndTime()) > 0));
         // }
 
-        return day.equals(data.getDay()) && !this.equalsTo(data) &&
-               ((Pojo.getElapsedTime(starts, data.getEndTime()) > 0 && Pojo.getElapsedTime(starts, data.getStartTime()) <= 0) ||
+        return day.equals(data.getDay()) &&
+               (((Pojo.getElapsedTime(starts, data.getEndTime()) > 0 && Pojo.getElapsedTime(starts, data.getStartTime()) <= 0) ||
                ((Pojo.getElapsedTime(data.getStartTime(), ends) > 0 && Pojo.getElapsedTime(data.getStartTime(), ends) <= 0))) ||
 
                ((Pojo.getElapsedTime(starts, data.getEndTime()) >= 0 && Pojo.getElapsedTime(starts, data.getStartTime()) < 0) ||
-               ((Pojo.getElapsedTime(data.getStartTime(), ends) >= 0 && Pojo.getElapsedTime(data.getStartTime(), ends) < 0)));
+               ((Pojo.getElapsedTime(data.getStartTime(), ends) >= 0 && Pojo.getElapsedTime(data.getStartTime(), ends) < 0)))) &&
+
+               !this.equalsTo(data);
     }
+
 }

@@ -61,9 +61,8 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
-
-        Log.d("onCreate", "EditClass");
         setTitle(R.string.edit_activity_title);
+
         ActionBar bar = getSupportActionBar();
         if (bar != null)
             bar.setDisplayHomeAsUpEnabled(true);  // Ensure "go back" button is visible
@@ -161,7 +160,7 @@ public class EditActivity extends AppCompatActivity {
             });
         }
 
-        TimePicker[] timePickers = new TimePicker[]{findViewById(R.id.start_time_input), findViewById(R.id.end_time_input)};
+        TimePicker[] timePickers = new TimePicker[] { findViewById(R.id.start_time_input), findViewById(R.id.end_time_input) };
         for (TimePicker picker: timePickers) {
             picker.setOnTimeChangedListener(new TimePicker.TimeChangedListener() {
                 @Override

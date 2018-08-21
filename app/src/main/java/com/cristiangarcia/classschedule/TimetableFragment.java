@@ -25,6 +25,7 @@ import android.widget.TableLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class TimetableFragment extends Fragment {
@@ -268,14 +269,14 @@ public class TimetableFragment extends Fragment {
     }
 
     @Nullable
-    public ClassData collide(ClassData classd) {
+    public ClassData collide(ClassData classd, @Nullable ClassData ignore) {
         for (ClassData _classd: data) {
-            if (_collide(classd, _classd))
+            if (_collide(classd, _classd) && !_classd.equalsTo(ignore))
                 return _classd;
         }
 
         for (ClassData _classd: waitingData) {
-            if (_collide(classd, _classd))
+            if (_collide(classd, _classd) && !_classd.equalsTo(ignore))
                 return _classd;
         }
 
