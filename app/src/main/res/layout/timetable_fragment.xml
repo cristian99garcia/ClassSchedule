@@ -9,23 +9,17 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/hScrollView" >
+        android:id="@+id/hScrollView">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <TableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.cristiangarcia.classschedule.HeaderRow
-                    android:id="@+id/header_row"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </TableLayout>
+            <com.cristiangarcia.classschedule.HeaderRow
+                android:id="@+id/header_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -36,12 +30,21 @@
                 android:fillViewport="true"
                 android:scrollbarStyle="insideInset">
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/table_calendar">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                </TableLayout>
+                    <com.cristiangarcia.classschedule.HourColumn
+                        android:id="@+id/hour_column"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/table_calendar" />
+
+                </LinearLayout>
 
             </ScrollView>
 

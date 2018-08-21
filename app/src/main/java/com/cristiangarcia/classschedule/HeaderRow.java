@@ -8,13 +8,14 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class HeaderRow extends TableRow {
+public class HeaderRow extends LinearLayout {
 
     private boolean[] visibleDays;
 
@@ -22,6 +23,8 @@ public class HeaderRow extends TableRow {
 
     public HeaderRow(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        setOrientation(LinearLayout.HORIZONTAL);
 
         SharedPreferences preferences = context.getSharedPreferences(SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
         visibleDays = new boolean[] {
@@ -36,16 +39,16 @@ public class HeaderRow extends TableRow {
     }
 
     private void createDaysTextViews() {
-        LayoutParams lp = new LayoutParams();
+        LayoutParams lp = new LayoutParams(columnWidth / 2, LayoutParams.WRAP_CONTENT);
         //lp.width = (int)getResources().getDimension(R.dimen.time_cell_size);
-        lp.width = columnWidth / 2;
+        //lp.width = columnWidth / 2;
 
         TextView tv = new TextView(getContext());  // An empty view for the first column
         tv.setLayoutParams(lp);
         this.addView(tv);
 
-        lp = new LayoutParams();
-        lp.width = columnWidth;
+        lp = new LayoutParams(columnWidth, LayoutParams.WRAP_CONTENT);
+        //lp.width = columnWidth;
 
         for (int i=0; i<visibleDays.length; i++) {
             if (!visibleDays[i]) continue;

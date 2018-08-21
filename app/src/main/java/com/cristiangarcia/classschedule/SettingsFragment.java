@@ -73,7 +73,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
 
         HourPreference hPreference = (HourPreference) findPreference(getResources().getString(R.string.key_hours));
-        hPreference.setHours(sp.getString(getResources().getString(R.string.key_hours), "6:18"));
+        hPreference.setHours(sp.getString(getResources().getString(R.string.key_hours), getResources().getString(R.string.default_visible_hours)));
 
         CheckBoxPreference notifyTests = (CheckBoxPreference) findPreference(getResources().getString(R.string.key_notify_tests));
         notifyTests.setChecked(sp.getBoolean(getResources().getString(R.string.key_notify_tests), false));

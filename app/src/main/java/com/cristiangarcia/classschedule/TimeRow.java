@@ -14,7 +14,6 @@ public class TimeRow extends TableRow {
 
     private int size;
 
-    private TextView tvLabel;
     private TimeCell[] timeCells = { null, null, null, null, null, null, null };
 
     private int starts;
@@ -35,18 +34,7 @@ public class TimeRow extends TableRow {
         this.configure();
         this.setStartTime(starts);
         this.setEndTime(ends);
-        this.createRow(context);
-
-        int id = this.starts;
-        String suffix = "am";
-
-        if (id > 12) {
-            id -= 12;
-            suffix = "pm";
-        }
-
-        String text = getResources().getString(getResources().getIdentifier("time" + id + suffix, "string", context.getPackageName()));
-        setTimeText(text);
+        this.createRow();
     }
 
     private void configure() {
@@ -60,18 +48,7 @@ public class TimeRow extends TableRow {
             super.addView(view, size, size / 2);
     }
 
-    private void createRow(Context context) {
-        tvLabel = new TextView(context);
-        tvLabel.setText("");
-        tvLabel.setTextColor(ContextCompat.getColor(context, R.color.time_label));
-
-        if (Build.VERSION.SDK_INT >= 17)
-            tvLabel.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-        else
-            tvLabel.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        this.addView(tvLabel, true);
-
+    private void createRow() {
         TimeCell tc;
 
         boolean[] days = header.getVisibleDays();
@@ -83,14 +60,6 @@ public class TimeRow extends TableRow {
             this.addView(tc, false);
             this.timeCells[i] = tc;
         }
-    }
-
-    public String getTimeText() {
-        return (String)tvLabel.getText();
-    }
-
-    public void setTimeText(String text) {
-        tvLabel.setText(text);
     }
 
     public int getStartTime() {

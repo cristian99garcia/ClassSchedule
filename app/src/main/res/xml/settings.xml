@@ -56,7 +56,7 @@
             android:key="@string/key_hours"
             android:title="@string/visible_hours"
             android:summary=""
-            android:defaultValue="6:18" />
+            android:defaultValue="@string/default_visible_hours" />
 
     </PreferenceCategory>
 

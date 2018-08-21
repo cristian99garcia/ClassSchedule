@@ -64,7 +64,7 @@ public class TimetableFragment extends Fragment {
                 SettingsFragment.SETTINGS_SHARED_PREFERENCES_FILE_NAME,
                 Context.MODE_PRIVATE);
 
-        String hours = preferences.getString(getResources().getString(R.string.key_hours), "6:18");
+        String hours = preferences.getString(getResources().getString(R.string.key_hours), getResources().getString(R.string.default_visible_hours));
         firstHour = Integer.parseInt(hours.split(":")[0]);
         lastHour = Integer.parseInt(hours.split(":")[1]);
 
@@ -145,6 +145,9 @@ public class TimetableFragment extends Fragment {
 
         HeaderRow headerRow = getActivity().findViewById(R.id.header_row);
         headerRow.setSize(size.x / 3);
+
+        HourColumn hourColumn = getActivity().findViewById(R.id.hour_column);
+        hourColumn.setSize(size.x / 3);
 
         Context context = getActivity().getBaseContext();
 

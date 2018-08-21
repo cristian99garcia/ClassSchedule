@@ -112,4 +112,6 @@
     <string name="key_notify_classes" translatable="false">notifyClassesKey</string>
     <string name="key_notify_tests" translatable="false">notifyTestsKey</string>
     <string name="key_hours" translatable="false">visibleHoursKey</string>
+
+    <string name="default_visible_hours" translatable="false">6:18</string>
 </resources>
